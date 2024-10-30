@@ -56,8 +56,9 @@
 
 #define DISPLAY_PIN_A_PCF8574 3
 
-#define I2C1_SDA PB_9
-#define I2C1_SCL PB_8
+//Para la placa NUCLEO-F103RB se usa PB_6 y PB_7
+#define I2C1_SDA PB_7 //ex PB_9
+#define I2C1_SCL PB_6 //ex PB_10
 
 #define PCF8574_I2C_BUS_8BIT_WRITE_ADDRESS 78
 
@@ -77,11 +78,11 @@ typedef struct{
 } pcf8574_t;
 
 //=====[Declaration and initialization of public global objects]===============
-
-DigitalOut displayD0( D0 );
-DigitalOut displayD1( D1 );
+//Para la placa NUCLEO-F103RB no se puede usar los pines D0, D1, D3 Y D13
+DigitalOut displayD0( D10 ); //D0
+DigitalOut displayD1( D11 ); //D1
 DigitalOut displayD2( D2 );
-DigitalOut displayD3( D3 );
+DigitalOut displayD3( D12 ); //D3
 DigitalOut displayD4( D4 );
 DigitalOut displayD5( D5 );
 DigitalOut displayD6( D6 );
@@ -242,7 +243,7 @@ static void displayCodeWrite( bool type, uint8_t dataBus )
 {
     if ( type == DISPLAY_RS_INSTRUCTION )
         displayPinWrite( DISPLAY_PIN_RS, DISPLAY_RS_INSTRUCTION);
-        else
+    else
         displayPinWrite( DISPLAY_PIN_RS, DISPLAY_RS_DATA);
     displayPinWrite( DISPLAY_PIN_RW, DISPLAY_RW_WRITE );
     displayDataBusWrite( dataBus );
@@ -292,8 +293,7 @@ static void displayPinWrite( uint8_t pinName, int value )
                     case DISPLAY_PIN_A_PCF8574: pcf8574.displayPinA = ON; break;
                     default: break;
                 }
-            }
-            else {
+            } else {
                 switch( pinName ) {
                     case DISPLAY_PIN_D4: pcf8574.displayPinD4 = OFF; break;
                     case DISPLAY_PIN_D5: pcf8574.displayPinD5 = OFF; break;
