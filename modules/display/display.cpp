@@ -59,6 +59,7 @@
 //Para la placa NUCLEO-F103RB se usa PB_6 y PB_7
 #define I2C1_SDA PB_7 //ex PB_9
 #define I2C1_SCL PB_6 //ex PB_10
+extern I2C_HandleTypeDef hi2c1;
 
 #define PCF8574_I2C_BUS_8BIT_WRITE_ADDRESS 78
 
@@ -80,15 +81,44 @@ typedef struct{
 //=====[Declaration and initialization of public global objects]===============
 //Para la placa NUCLEO-F103RB no se puede usar los pines D0, D1, D3 Y D13
 DigitalOut displayD0( D10 ); //D0
+#define D10_PIN GPIO_PIN_6
+#define D10_GPIO_PORT GPIOB
+
 DigitalOut displayD1( D11 ); //D1
+#define D11_PIN GPIO_PIN_7
+#define D11_GPIO_PORT GPIOA
+
 DigitalOut displayD2( D2 );
+#define D2_PIN GPIO_PIN_10
+#define D2_GPIO_PORT GPIOA
+
 DigitalOut displayD3( D12 ); //D3
+#define D12_PIN GPIO_PIN_6
+#define D12_GPIO_PORT GPIOA
+
 DigitalOut displayD4( D4 );
+#define D4_PIN GPIO_PIN_5
+#define D4_GPIO_PORT GPIOB
+
 DigitalOut displayD5( D5 );
+#define D5_PIN GPIO_PIN_4
+#define D5_GPIO_PORT GPIOB
+
 DigitalOut displayD6( D6 );
+#define D6_PIN GPIO_PIN_10
+#define D6_GPIO_PORT GPIOB
+
 DigitalOut displayD7( D7 );
+#define D7_PIN GPIO_PIN_8
+#define D7_GPIO_PORT GPIOA
+
 DigitalOut displayRs( D8 );
+#define D8_PIN GPIO_PIN_9
+#define D8_GPIO_PORT GPIOA
+
 DigitalOut displayEn( D9 );
+#define D9_PIN GPIO_PIN_7
+#define D9_GPIO_PORT GPIOC
 
 I2C i2cPcf8574( I2C1_SDA, I2C1_SCL ); 
 
@@ -254,29 +284,77 @@ static void displayPinWrite( uint8_t pinName, int value )
     switch( display.connection ) {
         case DISPLAY_CONNECTION_GPIO_8BITS:
             switch( pinName ) {
-                case DISPLAY_PIN_D0: displayD0 = value;   break;
-                case DISPLAY_PIN_D1: displayD1 = value;   break;
-                case DISPLAY_PIN_D2: displayD2 = value;   break;
-                case DISPLAY_PIN_D3: displayD3 = value;   break;
-                case DISPLAY_PIN_D4: displayD4 = value;   break;
-                case DISPLAY_PIN_D5: displayD5 = value;   break;
-                case DISPLAY_PIN_D6: displayD6 = value;   break;
-                case DISPLAY_PIN_D7: displayD7 = value;   break;
-                case DISPLAY_PIN_RS: displayRs = value;   break;
-                case DISPLAY_PIN_EN: displayEn = value;   break;
+                case DISPLAY_PIN_D0: 
+                    //displayD0 = value;   break; 
+                    HAL_GPIO_WritePin((GPIO_TypeDef*) D10_GPIO_PORT, (uint16_t)D10_PIN, (GPIO_PinState)value);
+                    break; 
+                case DISPLAY_PIN_D1: 
+                    //displayD1 = value;   break;
+                    HAL_GPIO_WritePin((GPIO_TypeDef*)D11_GPIO_PORT, (uint16_t)D11_PIN, (GPIO_PinState)value);
+                    break;
+                case DISPLAY_PIN_D2: 
+                    //displayD2 = value;   break;
+                    HAL_GPIO_WritePin((GPIO_TypeDef*)D2_GPIO_PORT, (uint16_t)D2_PIN, (GPIO_PinState)value);
+                    break;
+                case DISPLAY_PIN_D3: 
+                    //displayD3 = value;   break;
+                    HAL_GPIO_WritePin((GPIO_TypeDef*)D12_GPIO_PORT, (uint16_t)D12_PIN, (GPIO_PinState)value);
+                    break;
+                case DISPLAY_PIN_D4: 
+                    //displayD4 = value;   break;
+                    HAL_GPIO_WritePin((GPIO_TypeDef*)D4_GPIO_PORT, (uint16_t)D4_PIN, (GPIO_PinState)value);
+                    break;
+                case DISPLAY_PIN_D5: 
+                    //displayD5 = value;   break;
+                    HAL_GPIO_WritePin((GPIO_TypeDef*)D5_GPIO_PORT, (uint16_t)D5_PIN, (GPIO_PinState)value);
+                    break;
+                case DISPLAY_PIN_D6: 
+                    //displayD6 = value;   break;
+                    HAL_GPIO_WritePin((GPIO_TypeDef*)D6_GPIO_PORT, (uint16_t)D6_PIN, (GPIO_PinState)value);
+                    break;
+                case DISPLAY_PIN_D7: 
+                    //displayD7 = value;   break;
+                    HAL_GPIO_WritePin((GPIO_TypeDef*)D7_GPIO_PORT, (uint16_t)D7_PIN, (GPIO_PinState)value);
+                    break;
+                case DISPLAY_PIN_RS: 
+                    //displayRs = value;   break;
+                    HAL_GPIO_WritePin((GPIO_TypeDef*)D8_GPIO_PORT, (uint16_t)D8_PIN, (GPIO_PinState)value);
+                    break;
+                case DISPLAY_PIN_EN: 
+                    //displayEn = value;   break;
+                    HAL_GPIO_WritePin((GPIO_TypeDef*)D9_GPIO_PORT, (uint16_t)D9_PIN, (GPIO_PinState)value);
+                    break;
                 case DISPLAY_PIN_RW: break; 
                 default: break;
             }
             break;
         case DISPLAY_CONNECTION_GPIO_4BITS:
             switch( pinName ) {
-                case DISPLAY_PIN_D4: displayD4 = value;   break;
-                case DISPLAY_PIN_D5: displayD5 = value;   break;
-                case DISPLAY_PIN_D6: displayD6 = value;   break;
-                case DISPLAY_PIN_D7: displayD7 = value;   break;
-                case DISPLAY_PIN_RS: displayRs = value;   break;
-                case DISPLAY_PIN_EN: displayEn = value;   break;
-                case DISPLAY_PIN_RW: break; 
+                case DISPLAY_PIN_D4: 
+                    //displayD4 = value;   break;
+                    HAL_GPIO_WritePin((GPIO_TypeDef*)D4_GPIO_PORT, (uint16_t)D4_PIN, (GPIO_PinState)value);
+                    break;
+                case DISPLAY_PIN_D5: 
+                    //displayD5 = value;   break;
+                    HAL_GPIO_WritePin((GPIO_TypeDef*)D5_GPIO_PORT, (uint16_t)D5_PIN, (GPIO_PinState)value);
+                    break;
+                case DISPLAY_PIN_D6: 
+                    //displayD6 = value;   break;
+                    HAL_GPIO_WritePin((GPIO_TypeDef*)D6_GPIO_PORT, (uint16_t)D6_PIN, (GPIO_PinState)value);
+                    break;
+                case DISPLAY_PIN_D7: 
+                    //displayD7 = value;   break;
+                    HAL_GPIO_WritePin((GPIO_TypeDef*)D7_GPIO_PORT, (uint16_t)D7_PIN, (GPIO_PinState)value);
+                    break;
+                case DISPLAY_PIN_RS: 
+                    //displayRs = value;   break;
+                    HAL_GPIO_WritePin((GPIO_TypeDef*)D8_GPIO_PORT, (uint16_t)D8_PIN, (GPIO_PinState)value);
+                    break;
+                case DISPLAY_PIN_EN: 
+                    //displayEn = value;   break;
+                    HAL_GPIO_WritePin((GPIO_TypeDef*)D9_GPIO_PORT, (uint16_t)D9_PIN, (GPIO_PinState)value);
+                    break;
+                case DISPLAY_PIN_RW: break;  
                 default: break;
             }
             break;
@@ -315,7 +393,11 @@ static void displayPinWrite( uint8_t pinName, int value )
             if ( pcf8574.displayPinD5 ) pcf8574.data |= 0b00100000; 
             if ( pcf8574.displayPinD6 ) pcf8574.data |= 0b01000000; 
             if ( pcf8574.displayPinD7 ) pcf8574.data |= 0b10000000; 
-            i2cPcf8574.write( pcf8574.address, &pcf8574.data, 1);
+            HAL_I2C_Master_Transmit((I2C_HandleTypeDef *)&hi2c1, (uint16_t)pcf8574.address, (uint8_t *)&pcf8574.data, (uint16_t)16, (uint32_t)HAL_MAX_DELAY);
+
+
+
+            //i2cPcf8574.write( pcf8574.address, &pcf8574.data, 1); // CAMBIAR A LA HAL DE I2C
             break;    
     }
 }
